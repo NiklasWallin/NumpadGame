@@ -26,10 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     box.cpp \
-    score.cpp
+    game.cpp
 
 HEADERS += \
     box.h \
-    score.h
+    game.h
 
 FORMS +=

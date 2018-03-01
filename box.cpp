@@ -1,15 +1,17 @@
 #include <stdlib.h>
+#include <QTimer>
 #include "box.h"
-#include "score.h"
+#include "game.h"
 
 extern Box * BoxArray[9];
 extern Box * LivesArray[3];
-extern Score * score;
+//extern Score * score;
+extern Game * theGame;
 
 static int newValue = 4;
 static int oldValue = 4;
 static int LifePoint = 2;
-static int points = 0;
+//static int points = 0;
 
 Box::Box(QObject *parent) : QObject(parent)
 {
@@ -64,8 +66,18 @@ void Box::keyPressEvent(QKeyEvent *event)
 
 void Box::selectRandomBox(int tester)
 {
+    //start the timer at first press.
+
+    if(theGame->getTimerHasStarted() == false){
+        theGame->setTimerHasStarted(true);
+        theGame->connect(theGame->getTheTimer(),SIGNAL(timeout()),theGame,SLOT(timerTestFunction()));
+        //connect(theTimer,SIGNAL(timeout()),this,SLOT(timerTestFunction()));
+        theGame->getTheTimer()->start(10000);
+    }
+
     if(BoxArray[tester]->getColor()){
-        //score->increaseScore();
+        if(theGame->getStopCounting() == false)
+            theGame->increaseScore();
         BoxArray[tester]->setBrush(QBrush(Qt::white));
         BoxArray[tester]->setColor(false);
         oldValue = tester;
@@ -77,7 +89,7 @@ void Box::selectRandomBox(int tester)
     while(newValue == oldValue)
         newValue = rand() % 9;
 
-    qDebug() << "random value = " << newValue << endl;
+    //qDebug() << "random value = " << newValue << endl;
     oldValue = newValue;
 
     if(BoxArray[newValue]->ItemIsFocusable){
@@ -85,9 +97,7 @@ void Box::selectRandomBox(int tester)
         BoxArray[newValue]->setFocus();
         BoxArray[newValue]->setBrush(QBrush(Qt::red));
         BoxArray[newValue]->setColor(true);
-        qDebug() << "this item sure is focusable" << endl;
     }
-    qDebug() << " Testing " << endl;
 }
 
 void Box::CreateTheArray()
@@ -157,12 +167,15 @@ void Box::AddToScene(Box *theArray[], QGraphicsScene *thescene)
 
 void Box::RemoveLifePoint()
 {
-    if(LifePoint < 0){
-        qDebug() << "Game Over, you got the points: " << points << endl;
-    }
-    if(LifePoint >= 0){
-        LivesArray[LifePoint]->setBrush(QBrush(Qt::white));
+    LivesArray[LifePoint]->setBrush(QBrush(Qt::white));
+    LivesArray[LifePoint]->setColor(false);
+    if(LifePoint > 0){
         LifePoint--;
+        return;
+    }
+    if(LifePoint == 0){
+        qDebug() << "Game Over, you got the points: " << theGame->getScore() << endl;
+        return;
     }
 }
 
