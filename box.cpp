@@ -134,7 +134,6 @@ void Box::CreateTheArray()
         }
         counter++;
     }
-    qDebug() << "Array is created " << endl;
 }
 
 void Box::CreateLivesArray()
@@ -155,16 +154,13 @@ void Box::CreateLivesArray()
 
 void Box::RemoveLifePoint()
 {
-    qDebug() << "lifepoint value = " << theGame->getLifePoint() << endl;
     theGame->setLifePoint(theGame->getLifePoint()-1);
-    qDebug() << "1 lifepoint removed value = " << theGame->getLifePoint() << endl;
 
     LivesArray[theGame->getLifePoint()]->setBrush(QBrush(Qt::white));
     LivesArray[theGame->getLifePoint()]->setColor(false);
 
     if(theGame->getLifePoint() == 0){
         BoxArray[newValue]->setColor(true); //new
-        qDebug() << "Hello Game Over, you got the points: " << theGame->getScore() << endl;
         emit theGame->gameIsOver();
     }
 }

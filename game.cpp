@@ -24,7 +24,6 @@ Game::Game(QWidget *parent)  : QWidget(parent)
     theBox->AddToScene(LivesArray,theScene);
     theBox->AddToScene(theScene, BoxArray);
 
-    //theText = new QGraphicsTextItem("Score " + this->getScore());
     theText = new QGraphicsTextItem();
     theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + QString::number(getScore()));
     theText->setFont(QFont("times",16));
@@ -41,7 +40,6 @@ Game::Game(QWidget *parent)  : QWidget(parent)
 
     view->show();
 
-    //timer
     theTimer = new QTimer(this);
 }
 
@@ -111,9 +109,7 @@ void Game::whiteBoxes()
 {
     for(unsigned int i = 0; i < sizeof(BoxArray) / sizeof(BoxArray[0]); i++){
         BoxArray[i]->setBrush(QBrush(Qt::white));
-        //BoxArray[i]->setColor(false);
         BoxArray[i]->setFlag(QGraphicsItem::ItemIsFocusable);
-        //qDebug() << "focused box = " << theBox->focusedBox << endl;
         if(BoxArray[i]->getColor() == true){
             BoxArray[i]->setBrush(QBrush(Qt::red));
             BoxArray[i]->setColor(true);
@@ -125,7 +121,6 @@ void Game::whiteBoxes()
 
 void Game::gameOverAnimation()
 {
-    qDebug() << "slot called..." << endl;
     theTimer->stop();
     theTimer->disconnect();
     whiteBoxes();
