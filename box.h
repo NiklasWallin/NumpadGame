@@ -37,7 +37,7 @@ public:
 
     void setColor(bool value);
 
-
+    unsigned int focusedBox = 0;
 
 private:
     bool color;
@@ -45,6 +45,7 @@ private:
 signals:
 
 public slots:
+   // void darkBoxes();
 };
 
 #endif // BOX_H

@@ -6,9 +6,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
 #include <QTimer>
-//#include "score.h"
 #include "box.h"
-
 
 class Game : public QWidget
 {
@@ -17,10 +15,15 @@ public:
     explicit Game(QWidget *parent = nullptr);
 
     QGraphicsScene * theScene;
-    //Score * theScore;
     Box * theBox;
 
+    QGraphicsTextItem * theText;
+
+    void resetGame();
+    void resetLifes();
+
     void increaseScore();
+    void checkHighScore();
 
     int getScore() const;
     void setStopCounting(bool value);
@@ -30,20 +33,39 @@ public:
     bool getTimerHasStarted() const;
     void setTimerHasStarted(bool value);
 
-    QTimer *getTheTimer() const;
-    void setTheTimer(QTimer *value);
+    bool getTimeIsOut() const;
+    void setTimeIsOut(bool value);
 
-private:
-    bool timerHasStarted = false;
-    int score = 0;
-    bool stopCounting = false;
+    int getHighScore() const;
+    void setHighScore(int value);
+
+    void setScore(int value);
+
+    int getLifePoint() const;
+    void setLifePoint(int value);
+
+    void darkBoxes();
+
+    bool acceptUserInput = true;
     QTimer * theTimer;
 
+private:
+
+    int lifePoint = 3;
+    int score = 0;
+    int highScore = 0;
+    bool timerHasStarted = false;
+    bool stopCounting = false;
+    bool timeIsOut = false;
 
 signals:
+    void gameOver();
 
 public slots:
     void timerTestFunction();
+    void gameIsOver();
+    void whiteBoxes();
+    void gameOverAnimation();
 };
 
 #endif // GAME_H
