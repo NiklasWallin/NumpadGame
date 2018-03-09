@@ -5,13 +5,11 @@
 
 #include "game.h"
 #include "box.h"
-//#include "score.h"
 
 
 Box * BoxArray[9]; // global
 Box * LivesArray[3];
-extern int oldValue;
-extern int newValue;
+
 QGraphicsScene * theScene;
 
 Game::Game(QWidget *parent)  : QWidget(parent)

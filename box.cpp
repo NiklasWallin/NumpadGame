@@ -5,13 +5,10 @@
 
 extern Box * BoxArray[9];
 extern Box * LivesArray[3];
-//extern Score * score;
 extern Game * theGame;
 
 static int newValue = 4;
 static int oldValue = 4;
-
-//static int LifePoint = 2;
 
 Box::Box(QObject *parent) : QObject(parent)
 {
@@ -22,7 +19,6 @@ Box::Box(int x, int y, int width, int heigth)
 {
     setRect(x,y,width,heigth);
 }
-
 
 void Box::keyPressEvent(QKeyEvent *event)
 {   int t;

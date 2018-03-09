@@ -15,7 +15,6 @@ public:
     explicit Box(QObject *parent = nullptr);
 
     Box(int x, int y, int width, int heigth);
-    //Box();
 
     void keyPressEvent(QKeyEvent * event);
 
@@ -45,7 +44,7 @@ private:
 signals:
 
 public slots:
-   // void darkBoxes();
+
 };
 
 #endif // BOX_H
