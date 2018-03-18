@@ -7,17 +7,22 @@
 #include <QGraphicsTextItem>
 #include <QTimer>
 #include "box.h"
+//#include "mydialog.h"
 
 class Game : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Game(QWidget *parent = nullptr);
+    //explicit Game(QWidget *parent = nullptr, QString name);
+
+    Game(QString theName);
 
     QGraphicsScene * theScene;
     Box * theBox;
+    //MyDialog theDialog; //komenter bort kanske?
 
     QGraphicsTextItem * theText;
+
 
     void resetGame();
     void resetLifes();
@@ -45,6 +50,8 @@ public:
     void setLifePoint(int value);
 
     void darkBoxes();
+
+    QString PlayerName;
 
     bool acceptUserInput = true;
     QTimer * theTimer;

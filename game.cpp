@@ -5,16 +5,18 @@
 
 #include "game.h"
 #include "box.h"
-
+#include "mydialog.h"
 
 Box * BoxArray[9]; // global
 Box * LivesArray[3];
 
 QGraphicsScene * theScene;
 
-Game::Game(QWidget *parent)  : QWidget(parent)
+Game::Game(QString theName)
 {
+    PlayerName = theName;
     theScene = new QGraphicsScene();
+
     theScene->setBackgroundBrush(QBrush(Qt::lightGray));
 
     theBox->CreateTheArray();
@@ -23,7 +25,7 @@ Game::Game(QWidget *parent)  : QWidget(parent)
     theBox->AddToScene(theScene, BoxArray);
 
     theText = new QGraphicsTextItem();
-    theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + QString::number(getScore()));
+    theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
     theText->setFont(QFont("times",16));
     theText->setPos(this->x(),this->y()-95);
 
@@ -67,7 +69,10 @@ void Game::increaseScore()
 {
     if(getStopCounting() == false){
         score++;
-        theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + QString::number(getScore()));
+        if(getHighScore() > 0)
+            theText->setPlainText("Highscore: " + PlayerName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
+        else
+            theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
     }
 }
 
@@ -75,7 +80,7 @@ void Game::checkHighScore()
 {
     if(score > highScore){
         highScore = score;
-        theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + QString::number(getScore()));
+        theText->setPlainText("Highscore: " + PlayerName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
     }
 }
 

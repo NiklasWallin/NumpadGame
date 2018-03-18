@@ -26,10 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     box.cpp \
-    game.cpp
+    game.cpp \
+    mydialog.cpp
 
 HEADERS += \
     box.h \
-    game.h
+    game.h \
+    mydialog.h
 
-FORMS +=
+FORMS += \
+    mydialog.ui
