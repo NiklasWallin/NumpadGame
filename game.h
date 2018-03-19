@@ -23,12 +23,14 @@ public:
 
     QGraphicsTextItem * theText;
 
-
     void resetGame();
     void resetLifes();
 
     void increaseScore();
     void checkHighScore();
+
+    void writeToFile();
+    void readFromFile();
 
     int getScore() const;
     void setStopCounting(bool value);
@@ -52,6 +54,9 @@ public:
     void darkBoxes();
 
     QString PlayerName;
+
+    QString TheHighScore;
+    void setTheHighScore();
 
     bool acceptUserInput = true;
     QTimer * theTimer;

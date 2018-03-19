@@ -2,6 +2,8 @@
 #include <QFont>
 #include <QGraphicsTextItem>
 #include <QTimer>
+#include <QFile>
+#include <QTextStream>
 
 #include "game.h"
 #include "box.h"
@@ -19,13 +21,16 @@ Game::Game(QString theName)
 
     theScene->setBackgroundBrush(QBrush(Qt::lightGray));
 
+    readFromFile();//nytt
+
+
     theBox->CreateTheArray();
     theBox->CreateLivesArray();
     theBox->AddToScene(LivesArray,theScene);
     theBox->AddToScene(theScene, BoxArray);
 
     theText = new QGraphicsTextItem();
-    theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
+    setTheHighScore();
     theText->setFont(QFont("times",16));
     theText->setPos(this->x(),this->y()-95);
 
@@ -72,17 +77,48 @@ void Game::increaseScore()
         if(getHighScore() > 0)
             theText->setPlainText("Highscore: " + PlayerName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
         else
-            theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
+            theText->setPlainText("Highscore: " + TheHighScore + "\nScore: " + PlayerName + " " + QString::number(getScore()));
     }
+}
+
+void Game::setTheHighScore()
+{
+    theText->setPlainText("Highscore: " + TheHighScore + "\nScore: " + PlayerName + " " + QString::number(getScore()));
 }
 
 void Game::checkHighScore()
 {
     if(score > highScore){
+        writeToFile();
         highScore = score;
         theText->setPlainText("Highscore: " + PlayerName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
     }
 }
+
+void Game::writeToFile()
+{
+    QFile Myfile("Highscore.txt");
+    if(!Myfile.open(QFile::WriteOnly| QFile::Text)){
+        qDebug() << "Could not open file " << endl;
+    }
+    QTextStream out(&Myfile);
+    out << PlayerName << " " << getScore();
+    out.flush();
+    Myfile.close();
+}
+
+void Game::readFromFile()
+{
+
+    QFile Myfile("Highscore.txt");
+    if(!Myfile.open(QFile::ReadOnly| QFile::Text)){
+        qDebug() << "Could not open file " << endl;
+    }
+    QTextStream in(&Myfile);
+    TheHighScore = in.readAll();
+    Myfile.close();
+}
+
 
 void Game::timerTestFunction()
 {
