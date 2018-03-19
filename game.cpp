@@ -21,8 +21,7 @@ Game::Game(QString theName)
 
     theScene->setBackgroundBrush(QBrush(Qt::lightGray));
 
-    readFromFile();//nytt
-
+    readFromFile();
 
     theBox->CreateTheArray();
     theBox->CreateLivesArray();
