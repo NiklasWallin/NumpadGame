@@ -55,7 +55,7 @@ public:
 
     QString PlayerName;
 
-    QString TheHighScore;
+    QString HighScoreName;
     void setTheHighScore();
 
     bool acceptUserInput = true;

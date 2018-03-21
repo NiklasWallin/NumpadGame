@@ -4,6 +4,8 @@
 #include <QTimer>
 #include <QFile>
 #include <QTextStream>
+#include <QString>
+#include <QStringList>
 
 #include "game.h"
 #include "box.h"
@@ -59,7 +61,6 @@ void Game::resetGame()
 
 void Game::resetLifes()
 {
-
     for(unsigned int i = 0; i < sizeof(LivesArray)/sizeof(LivesArray[0]); i++){
         if(LivesArray[i]->getColor() == false){
             LivesArray[i]->setBrush(QBrush(Qt::darkGreen));
@@ -74,15 +75,15 @@ void Game::increaseScore()
     if(getStopCounting() == false){
         score++;
         if(getHighScore() > 0)
-            theText->setPlainText("Highscore: " + PlayerName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
+            theText->setPlainText("Highscore: " + HighScoreName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
         else
-            theText->setPlainText("Highscore: " + TheHighScore + "\nScore: " + PlayerName + " " + QString::number(getScore()));
+            theText->setPlainText("Highscore: " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
     }
 }
 
 void Game::setTheHighScore()
 {
-    theText->setPlainText("Highscore: " + TheHighScore + "\nScore: " + PlayerName + " " + QString::number(getScore()));
+    theText->setPlainText("Highscore: " + HighScoreName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
 }
 
 void Game::checkHighScore()
@@ -90,7 +91,8 @@ void Game::checkHighScore()
     if(score > highScore){
         writeToFile();
         highScore = score;
-        theText->setPlainText("Highscore: " + PlayerName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
+        HighScoreName = PlayerName;
+        theText->setPlainText("Highscore: " + HighScoreName + " " + QString::number(getHighScore()) + "\nScore: " + PlayerName + " " + QString::number(getScore()));
     }
 }
 
@@ -101,20 +103,25 @@ void Game::writeToFile()
         qDebug() << "Could not open file " << endl;
     }
     QTextStream out(&Myfile);
-    out << PlayerName << " " << getScore();
+    out << PlayerName << ":" << getScore();
     out.flush();
     Myfile.close();
 }
 
 void Game::readFromFile()
 {
-
     QFile Myfile("Highscore.txt");
     if(!Myfile.open(QFile::ReadOnly| QFile::Text)){
         qDebug() << "Could not open file " << endl;
     }
     QTextStream in(&Myfile);
-    TheHighScore = in.readAll();
+
+    QStringList List;
+    QString test = in.readAll();
+    List = test.split(":");
+    HighScoreName = List[0];
+    setHighScore(List[1].toInt());
+
     Myfile.close();
 }
 
