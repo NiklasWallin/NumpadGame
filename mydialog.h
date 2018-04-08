@@ -18,7 +18,6 @@ public:
 
     QString theText;
 
-
 private slots:
 
 

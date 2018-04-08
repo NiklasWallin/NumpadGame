@@ -13,13 +13,11 @@ class Game : public QWidget
 {
     Q_OBJECT
 public:
-    //explicit Game(QWidget *parent = nullptr, QString name);
 
     Game(QString theName);
 
     QGraphicsScene * theScene;
     Box * theBox;
-    //MyDialog theDialog; //komenter bort kanske?
 
     QGraphicsTextItem * theText;
 

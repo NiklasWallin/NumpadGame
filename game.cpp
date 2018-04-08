@@ -101,6 +101,7 @@ void Game::writeToFile()
     QFile Myfile("Highscore.txt");
     if(!Myfile.open(QFile::WriteOnly| QFile::Text)){
         qDebug() << "Could not open file " << endl;
+        return;
     }
     QTextStream out(&Myfile);
     out << PlayerName << ":" << getScore();
@@ -113,6 +114,7 @@ void Game::readFromFile()
     QFile Myfile("Highscore.txt");
     if(!Myfile.open(QFile::ReadOnly| QFile::Text)){
         qDebug() << "Could not open file " << endl;
+        return;
     }
     QTextStream in(&Myfile);
 
